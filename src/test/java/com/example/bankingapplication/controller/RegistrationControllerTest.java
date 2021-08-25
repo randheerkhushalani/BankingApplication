@@ -49,7 +49,6 @@ public class RegistrationControllerTest {
 	@InjectMocks
 	RegistrationController registrationContoller;
 	
-	static Beneficiary beneficiary;
 	static RegistrationData registrationData;
 		
 	

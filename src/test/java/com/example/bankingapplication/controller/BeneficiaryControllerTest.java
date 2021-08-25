@@ -16,11 +16,6 @@ import com.example.bankingapplication.service.BeneficiaryService;
 
 @ExtendWith(MockitoExtension.class)
 public class BeneficiaryControllerTest {
-
- 
-	//given or context
-	//on a event
-	//what is the outcome
 	
 	@Mock
 	BeneficiaryService beneficiaryService;
