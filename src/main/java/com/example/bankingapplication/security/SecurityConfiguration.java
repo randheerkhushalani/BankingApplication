@@ -9,6 +9,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
@@ -19,14 +21,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http
+		http.csrf().disable();
+		http.headers().frameOptions().disable();
+		http.httpBasic().and()
 		.authorizeRequests()
-		.antMatchers("/accounts/{acctID}/transfer/{destAcctID}/{amount}").
+		.antMatchers("/accounts**").
 		authenticated()
 		.anyRequest().permitAll()
 		.and()
-		.csrf().disable();
-		http.headers().frameOptions().disable();
+		.formLogin().disable();
 	}
 
 	@Bean
