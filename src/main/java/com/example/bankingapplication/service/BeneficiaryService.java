@@ -9,5 +9,7 @@ public interface BeneficiaryService {
 	Beneficiary getBeneficiaryInfo(int beneficiaryID);
 
 	void deleteBeneficiary(int beneficiaryID);
+	
+	Boolean isBeneficiaryAdded(int accNo);
 
 }

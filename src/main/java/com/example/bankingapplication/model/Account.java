@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.TableGenerator;
 import javax.validation.constraints.DecimalMin;
 
@@ -32,6 +33,8 @@ public class Account implements Serializable {
     private BigDecimal beginBalance;
     @CreationTimestamp
     private LocalDateTime beginBalanceTimeStamp;
+    @OneToOne
+    private Customer customer;
     
     public Account() {        
     }
@@ -86,4 +89,12 @@ public class Account implements Serializable {
     public void setBeginBalanceTimeStamp(LocalDateTime beginBalanceTimeStamp) {
         this.beginBalanceTimeStamp = beginBalanceTimeStamp;
     }
+
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
 }

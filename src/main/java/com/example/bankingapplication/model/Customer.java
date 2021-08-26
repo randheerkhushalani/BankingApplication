@@ -11,7 +11,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.persistence.TableGenerator;
+import javax.persistence.UniqueConstraint;
 
 @Entity
 @TableGenerator(name="tab", initialValue=100, allocationSize=50)
@@ -36,7 +38,9 @@ public class Customer implements Serializable {
     private String email;
     @OneToMany
     private List<Beneficiary> beneficiaries = new ArrayList<>();
-
+    @OneToOne
+    private Account account;
+    
     public Customer () {        
     }
 
@@ -123,4 +127,12 @@ public class Customer implements Serializable {
     public void addBeneficiary(Beneficiary beneficiary) {
     	beneficiaries.add(beneficiary);
     }
+
+	public Account getAccount() {
+		return account;
+	}
+
+	public void setAccount(Account account) {
+		this.account = account;
+	}
 }

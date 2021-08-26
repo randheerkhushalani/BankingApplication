@@ -5,6 +5,7 @@ import java.time.LocalDate;
 
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
@@ -15,8 +16,11 @@ public class RegistrationData {
 	@Email(message="please enter valid email address")
     String EmailAddress;
     String AccountType;
+    @NotBlank(message = "first name cannot be empty")
     String firstName;
+    @NotBlank(message = "last name cannot be empty")
     String lastName;
+    @NotBlank(message = "addhar number cannot be empty")
     String aadharNo;
     @Past(message = "Birthdate cannot be a present or future date")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")

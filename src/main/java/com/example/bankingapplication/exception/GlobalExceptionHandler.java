@@ -45,6 +45,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		return new ResponseEntity(error, HttpStatus.BAD_REQUEST);
 	}
 	
+	@ExceptionHandler(ExistingCustomerException.class)
+	public final ResponseEntity<Object> handleExistingCustomerException(ExistingCustomerException ex, WebRequest request) {
+		List<String> details = new ArrayList<>();
+		details.add(ex.getLocalizedMessage());
+		ExceptionResponse error = new ExceptionResponse("Existing Customer", details);
+		return new ResponseEntity(error, HttpStatus.BAD_REQUEST);
+	}
+	
 	@ExceptionHandler(ConstraintViolationException.class)
 	public final ResponseEntity<Object> handleConstraintViolationException(ConstraintViolationException ex, WebRequest request) {
 		List<String> details = new ArrayList<>();

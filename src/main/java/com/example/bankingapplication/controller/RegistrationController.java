@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.bankingapplication.dto.RegistrationData;
 import com.example.bankingapplication.dto.RegistrationResponse;
+import com.example.bankingapplication.exception.ExistingCustomerException;
 import com.example.bankingapplication.model.Account;
 import com.example.bankingapplication.model.Address;
 import com.example.bankingapplication.model.Customer;
@@ -36,6 +37,9 @@ public class RegistrationController {
 
 	@PostMapping
 	public ResponseEntity<RegistrationResponse> register(@Valid @RequestBody RegistrationData request) {
+		if(customerService.isAadharNoRegistered(request.getAadharNo())) {
+			throw new ExistingCustomerException("Customer is already registered with following aadhar number : " + request.getAadharNo());
+		}
 		Address address = new Address(request.getAddressLine1() + "," + request.getAddressLine2(),request.getCity(),
 				request.getStateProvince(),request.getZipCode());
 		Account account = new Account();
@@ -50,6 +54,9 @@ public class RegistrationController {
 		Customer customer = new Customer(request.getLastName(),request.getFirstName(),request.getAadharNo(),
 				address, request.getMobilePhone(), request.getEmailAddress());
 		customer.setLogin(userLoginDetails);
+		customer.setAccount(account);
+		account.setCustomer(customer);
+		userLoginDetails.setCustomer(customer);
 		accountService.createAccount(account);
 		userService.addUserLoginDetails(userLoginDetails);
 		customerService.createCustomer(customer);

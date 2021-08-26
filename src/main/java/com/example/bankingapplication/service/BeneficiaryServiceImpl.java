@@ -48,4 +48,9 @@ public class BeneficiaryServiceImpl implements BeneficiaryService {
 		beneficiaryRepository.deleteById(beneficiaryId);
 	}
 
+	@Override
+	public Boolean isBeneficiaryAdded(int accNo) {
+		return beneficiaryRepository.findByAccNo(accNo).isPresent();
+	}
+
 }

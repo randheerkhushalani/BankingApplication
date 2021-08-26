@@ -3,6 +3,8 @@ package com.example.bankingapplication.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Beneficiary {
@@ -10,12 +12,17 @@ public class Beneficiary {
 	@Id
 	@GeneratedValue
 	private int id;
+	@NotBlank
 	private String name;
 	private String description;
+	@NotBlank
 	private String ifscCode;
+	@NotBlank
 	private String branch;
+	@NotNull
 	private int  accNo;
 	private String bankName;
+	@NotNull
 	private int customerId;
 	
 	public Beneficiary() {

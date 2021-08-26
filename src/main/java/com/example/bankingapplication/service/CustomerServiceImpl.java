@@ -1,5 +1,7 @@
 package com.example.bankingapplication.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +31,11 @@ public class CustomerServiceImpl implements CustomerService {
 			throw new CustomerNotFoundException("Follwoing customer Id is not available" + custID);
 		}
 			customerRepository.deleteById(custID);
+	}
+
+	@Override
+	public Boolean isAadharNoRegistered(String AadharNo) {
+		return customerRepository.findByAadharNo(AadharNo).isPresent();
 	}
 
 }
