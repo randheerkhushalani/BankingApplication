@@ -18,6 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import com.example.bankingapplication.dto.TransferRequest;
 import com.example.bankingapplication.model.Transaction;
 import com.example.bankingapplication.service.TransactionService;
 
@@ -30,10 +31,12 @@ public class FundTransferControllerTest {
 	FundTransferController fundTransferController;
 	
 	static Transaction transaction;
+	static TransferRequest transferRequest;
 		
 	
 	  @BeforeAll 
 	  public static void setUp() { 
+		  transferRequest = new TransferRequest(90001, 90002, BigDecimal.valueOf(500));
 		  transaction = new Transaction(90001, 90002, LocalDateTime.now(), BigDecimal.valueOf(500));
 	  }
 	 
@@ -41,12 +44,9 @@ public class FundTransferControllerTest {
 	@Test
 	@DisplayName("Fund Transfer Test")
 	public void FundTransferTest() {
-		final int srcAcctId = 90001;
-		final int destAcctId = 90002;
-		final BigDecimal amt = BigDecimal.valueOf(500);
-		when(transactionService.transferFunds(amt, srcAcctId, destAcctId)).thenReturn(transaction);
-		ResponseEntity<Transaction> response = fundTransferController.transferAmount(srcAcctId, destAcctId, amt);
-		verify(transactionService).transferFunds(amt, srcAcctId, destAcctId);
+		when(transactionService.transferFunds(transferRequest)).thenReturn(transaction);
+		ResponseEntity<Transaction> response = fundTransferController.transferAmount(transferRequest);
+		verify(transactionService).transferFunds(transferRequest);
 		assertEquals(transaction, response.getBody());
 		assertEquals(HttpStatus.OK,response.getStatusCode());
 	}

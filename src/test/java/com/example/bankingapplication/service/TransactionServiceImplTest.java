@@ -15,6 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.example.bankingapplication.dto.TransferRequest;
 import com.example.bankingapplication.model.Transaction;
 import com.example.bankingapplication.model.UserLoginDetails;
 import com.example.bankingapplication.repo.TransactionRepository;
@@ -32,11 +33,12 @@ public class TransactionServiceImplTest {
 	private AccountService accountService;
 
 	static Transaction transaction;
-
-	static UserLoginDetails loginDetails;
+	
+	static TransferRequest transferRequest;
 
 	@BeforeAll
 	public static void setUp() {
+		  transferRequest = new TransferRequest(90001, 90002, BigDecimal.valueOf(500));
 		transaction = new Transaction(90001, 90002, LocalDateTime.now(), BigDecimal.valueOf(500));
 	}
 
@@ -48,7 +50,7 @@ public class TransactionServiceImplTest {
 			transaction.setTxId(1);
 			return transaction;
 		});
-		Transaction result = transactionServiceImpl.transferFunds(BigDecimal.valueOf(500), 90001, 90002);
+		Transaction result = transactionServiceImpl.transferFunds(transferRequest);
 		verify(accountService).withdrawAmount(90001, BigDecimal.valueOf(500));
 		verify(accountService).depositAmount(90002, BigDecimal.valueOf(500));
 		assertEquals(1,result.getTxId());

@@ -1,5 +1,7 @@
 package com.example.bankingapplication.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +22,7 @@ public class BeneficiaryContoller {
 	private BeneficiaryService beneficiaryService;
 	
 	@PostMapping
-	public ResponseEntity<Beneficiary> addBeneficiary(@RequestBody Beneficiary request) {
+	public ResponseEntity<Beneficiary> addBeneficiary(@Valid @RequestBody Beneficiary request) {
 		if(beneficiaryService.isBeneficiaryAdded(request.getAccNo())) {
 			throw new ExistingBeneFiciaryException("Beneficiary with following account no is already added:" + request.getAccNo());
 		}

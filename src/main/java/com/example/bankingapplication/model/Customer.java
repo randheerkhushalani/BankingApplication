@@ -14,6 +14,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @TableGenerator(name="tab", initialValue=100, allocationSize=50)
@@ -31,15 +34,16 @@ public class Customer implements Serializable {
     private String firstName;
     private String aadharNo;
     @Embedded
+    @NotNull
     private Address address;
     @OneToOne
     private UserLoginDetails loginDetails;
+    @OneToOne
+    private Account account;
     private String phone;
     private String email;
     @OneToMany
     private List<Beneficiary> beneficiaries = new ArrayList<>();
-    @OneToOne
-    private Account account;
     
     public Customer () {        
     }

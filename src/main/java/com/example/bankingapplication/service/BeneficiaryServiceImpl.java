@@ -1,17 +1,19 @@
 package com.example.bankingapplication.service;
 
-import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.bankingapplication.exception.BeneficiaryNotFoundException;
+import com.example.bankingapplication.exception.CustomerNotFoundException;
 import com.example.bankingapplication.model.Beneficiary;
 import com.example.bankingapplication.model.Customer;
 import com.example.bankingapplication.repo.BeneficiaryRepository;
 import com.example.bankingapplication.repo.CustomerRepository;
 
 @Service
+@Transactional
 public class BeneficiaryServiceImpl implements BeneficiaryService {
 	@Autowired
 	private BeneficiaryRepository beneficiaryRepository;
@@ -20,7 +22,6 @@ public class BeneficiaryServiceImpl implements BeneficiaryService {
 	private CustomerRepository customerRepository;
 
 	@Override
-	@Transactional
 	public Beneficiary createBeneficiary(Beneficiary beneficiary) {
 		Beneficiary savedBeneficiary = beneficiaryRepository.save(beneficiary);
 		addBeneficiaryToCustomer(savedBeneficiary);
@@ -29,7 +30,7 @@ public class BeneficiaryServiceImpl implements BeneficiaryService {
 
 	private void addBeneficiaryToCustomer(Beneficiary savedBeneficiary) {
 		Customer customer = customerRepository.findById(savedBeneficiary.getCustomerId())
-				.get();
+				.orElseThrow(() -> new CustomerNotFoundException("No customer found with following customer id: "+ savedBeneficiary.getCustomerId()));
 		customer.addBeneficiary(savedBeneficiary);
 		customerRepository.save(customer);
 	}

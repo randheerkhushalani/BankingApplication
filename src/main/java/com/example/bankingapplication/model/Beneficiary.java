@@ -3,8 +3,10 @@ package com.example.bankingapplication.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Beneficiary {
@@ -12,17 +14,18 @@ public class Beneficiary {
 	@Id
 	@GeneratedValue
 	private int id;
-	@NotBlank
+	@NotBlank(message="Name should not be blank")
 	private String name;
 	private String description;
-	@NotBlank
+	@NotBlank(message="IFSC code should not be blank.Please refer your passbook.")
 	private String ifscCode;
 	@NotBlank
 	private String branch;
-	@NotNull
+	@Min(value=9000,message="Account number should not be empty")
 	private int  accNo;
 	private String bankName;
-	@NotNull
+	@NotNull(message="Customer id should not be empty")
+	@Min(value = 101,message="customer Id should be more than 100")
 	private int customerId;
 	
 	public Beneficiary() {

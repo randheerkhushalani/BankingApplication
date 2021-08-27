@@ -30,7 +30,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 						CustomerNotFoundException.class,
 						TxNotFoundException.class,
 						BeneficiaryNotFoundException.class})
-	public final ResponseEntity<Object> handleStudentNotFoundException(RuntimeException ex, WebRequest request) {
+	public final ResponseEntity<Object> handleRecordNotFoundException(RuntimeException ex, WebRequest request) {
 		List<String> details = new ArrayList<>();
 		details.add(ex.getLocalizedMessage());
 		ExceptionResponse error = new ExceptionResponse("Record Not Found", details);
@@ -50,6 +50,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		List<String> details = new ArrayList<>();
 		details.add(ex.getLocalizedMessage());
 		ExceptionResponse error = new ExceptionResponse("Existing Customer", details);
+		return new ResponseEntity(error, HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(ExistingBeneFiciaryException.class)
+	public final ResponseEntity<Object> handleExistingBeneficiaryException(ExistingCustomerException ex, WebRequest request) {
+		List<String> details = new ArrayList<>();
+		details.add(ex.getLocalizedMessage());
+		ExceptionResponse error = new ExceptionResponse("Existing Beneficiary", details);
 		return new ResponseEntity(error, HttpStatus.BAD_REQUEST);
 	}
 	

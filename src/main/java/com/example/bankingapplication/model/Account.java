@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,6 +14,8 @@ import javax.persistence.TableGenerator;
 import javax.validation.constraints.DecimalMin;
 
 import org.hibernate.annotations.CreationTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @TableGenerator(name="tab", initialValue=90000, allocationSize=50)
@@ -33,7 +36,8 @@ public class Account implements Serializable {
     private BigDecimal beginBalance;
     @CreationTimestamp
     private LocalDateTime beginBalanceTimeStamp;
-    @OneToOne
+    @OneToOne(mappedBy = "account",fetch = FetchType.LAZY)
+    @JsonIgnore
     private Customer customer;
     
     public Account() {        
@@ -90,7 +94,7 @@ public class Account implements Serializable {
         this.beginBalanceTimeStamp = beginBalanceTimeStamp;
     }
 
-	public Customer getCustomer() {
+    public Customer getCustomer() {
 		return customer;
 	}
 
